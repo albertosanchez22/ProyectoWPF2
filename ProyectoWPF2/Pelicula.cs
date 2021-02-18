@@ -128,7 +128,7 @@ namespace ProyectoWPF2
 
         }
 
-        public static void eliminarPeliculasSQL()
+       public static void eliminarPeliculasSQL()
         {
             SqliteConnection conexion = new SqliteConnection("Data Source=peliculasbase.db");
             conexion.Open();
@@ -137,7 +137,7 @@ namespace ProyectoWPF2
             comando.ExecuteNonQuery();
             conexion.Close();
         }
-
+     
         public static ObservableCollection<Pelicula> selectPeliculasSQL()
         {
             ObservableCollection<Pelicula> lista = new ObservableCollection<Pelicula>(); ;

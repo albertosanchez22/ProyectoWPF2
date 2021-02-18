@@ -97,13 +97,14 @@ namespace ProyectoWPF2
             SqliteDataReader lector = comando.ExecuteReader();
             if (lector.HasRows)
             {
+               
 
                 while (lector.Read())
                 {
                     int id = lector.GetInt32(0);
                     string numero = (string)lector["numero"];
                     int capacidad = lector.GetInt32(2);
-                    bool disponible = lector.GetBoolean(0);
+                    bool disponible = lector.GetBoolean(lector.GetOrdinal("disponible"));
                     
 
                     lista.Add(new Sala(id,numero,capacidad,disponible));
@@ -156,15 +157,16 @@ namespace ProyectoWPF2
 
                 while (lector.Read())
                 {
-                    if(numero.ToLower().Equals((string)lector["numero"]))
+                   
+
+                    if(numero.Equals(lector["numero"]))
                     {
                         return true;
                     }
-
-
                     
                 }
-                
+               
+
             }
             conexion.Close();
             return false;

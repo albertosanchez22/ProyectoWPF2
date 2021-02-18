@@ -3,18 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProyectoWPF2"
+        xmlns:local="clr-namespace:ProyectoWPF2" xmlns:local1="clr-namespace:ProyectoWPF2.Conversores"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.CommandBindings>
         <CommandBinding Command="local:CustomCommands.Actualizar"
                         Executed="Actualizar_Executed"
                             CanExecute="Actualizar_CanExecute"></CommandBinding>
+
+        <CommandBinding Command="local:CustomCommands.ActualizarSesion"
+                        Executed="ActualizarSesion_Executed"
+                            CanExecute="ActualizarSesion_CanExecute"></CommandBinding>
+
+        <CommandBinding Command="local:CustomCommands.Eliminar"
+                        Executed="Eliminar_Executed"
+                            CanExecute="Eliminar_CanExecute"></CommandBinding>
     </Window.CommandBindings>
     <Window.Resources>
-        
-        
-        
+
+
+        <local1:IdPeliculaConverter x:Key="peliculaconverter"></local1:IdPeliculaConverter>
         
         <DataTemplate DataType="{x:Type local:Pelicula}">
             <Border BorderThickness="1"
@@ -50,6 +58,28 @@
                 </DockPanel>
             </Border>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:Sesion}">
+            <Border BorderThickness="1"
+                    BorderBrush="Black"
+                    Background="AliceBlue"
+                    Height="120"
+                    Width="120"
+                    Margin="10,0,0,10">
+
+                <DockPanel LastChildFill="True">
+
+                    <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=Hora}"></TextBlock>
+                    <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=Sala}"></TextBlock>
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Path=Pelicula,Converter={StaticResource peliculaconverter}}"></TextBlock>
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Path=Id}"></TextBlock>
+
+
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+
+        
     </Window.Resources>
     <TabControl>
         <TabItem Header="Obtención de peliculas">
@@ -122,7 +152,48 @@
             </DockPanel>
         </TabItem>
         <TabItem Header="Gestión de  sesiones">
-            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+            <DockPanel>
+
+
+
+                <Grid DockPanel.Dock="Bottom" DataContext="{Binding ElementName=sesioneslistbox,Path=SelectedItem}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="0">Id Sesion:</TextBlock>
+                    <TextBox IsEnabled="False" x:Name="idsesiontextbox" Text="{Binding Path=Id,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0" Grid.Row="0" Grid.Column="1"></TextBox>
+                    <TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="0">Nombre Pelicula:</TextBlock>
+                    <TextBox x:Name="nombrepeliculatextbox" Text="{Binding Path=Pelicula,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"  Grid.Row="1" Grid.Column="1"></TextBox>
+                    <TextBlock TextAlignment="Center" Grid.Row="2" Grid.Column="0">Sala:</TextBlock>
+                    <TextBox x:Name="salatextbox" Text="{Binding Path=Sala,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"  Grid.Row="2" Grid.Column="1"></TextBox>
+                    <TextBlock TextAlignment="Center" Grid.Row="3" Grid.Column="0">Hora:</TextBlock>
+                    <TextBox x:Name="horatextbox" Text="{Binding Path=Hora,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"  Grid.Row="3" Grid.Column="1"></TextBox>
+                    <Button x:Name="botonañadirsesion" Click="botonañadirsala_Click" Grid.Row="4" Grid.Column="0">Añadir Sala</Button>
+                    <StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="1">
+                        <Button Command="local:CustomCommands.ActualizarSesion" x:Name="botonactualizarsesion"   Margin="0,0,10,0"  >Actualizar Sesion</Button>
+                        <Button Command="local:CustomCommands.Eliminar" x:Name="botoneliminarsesion"   Margin="0,0,10,0"  Grid.Column="1">Eliminar Sesion</Button>
+                    </StackPanel>
+                   
+                </Grid>
+
+
+
+
+
+
+
+
+                <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                          x:Name="sesioneslistbox"
                          ItemsSource="{Binding}"
                          >
@@ -137,6 +208,7 @@
 
 
             </ListBox>
+            </DockPanel>
         </TabItem>
     </TabControl>
 </Window>

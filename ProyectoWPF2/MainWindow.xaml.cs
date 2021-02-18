@@ -24,6 +24,7 @@ namespace ProyectoWPF2
     {
         ObservableCollection<Pelicula> listapeliculas;
         ObservableCollection<Sala> listasalas;
+        ObservableCollection<Sesion> listasesiones;
 
         public MainWindow()
         {
@@ -32,15 +33,17 @@ namespace ProyectoWPF2
                 CrearSQL();
             }
 
-
-
             
+
+
             InitializeComponent();
             listasalas = Sala.getSamples();
             listapeliculas = Pelicula.getSamples();
+            listasesiones = Sesion.getSamples();
 
             peliculaslistbox.DataContext = listapeliculas;
             salaslistbox.DataContext = listasalas;
+            sesioneslistbox.DataContext = listasesiones;
         }
        
 
@@ -143,7 +146,7 @@ namespace ProyectoWPF2
                 listasalas = Sala.getSamples();
                 salaslistbox.DataContext = null;
                 salaslistbox.DataContext = listasalas;
-              
+             
                 
           
 
@@ -157,6 +160,27 @@ namespace ProyectoWPF2
                 e.CanExecute = false;
             }
             else e.CanExecute = true;
+        }
+
+        private void ActualizarSesion_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void Eliminar_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void ActualizarSesion_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+
+        }
+
+        private void Eliminar_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+
+            
         }
     }
 }

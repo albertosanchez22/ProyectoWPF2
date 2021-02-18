@@ -50,5 +50,10 @@ namespace ProyectoWPF2
 
             
         }
+
+        private void cancelarañadirsala_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

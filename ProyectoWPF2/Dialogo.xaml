@@ -23,9 +23,9 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock>Disponible</TextBlock>
-            <RadioButton x:Name="disponiblecheck" IsChecked="True" ></RadioButton>
+            <CheckBox x:Name="disponiblecheck" IsChecked="True" ></CheckBox>
         </StackPanel>
         <Button x:Name="aceptarañadirsala" Click="aceptarañadirsala_Click">Aceptar</Button>
-        <Button>Cancelar</Button>
+        <Button x:Name="cancelarañadirsala" Click="cancelarañadirsala_Click">Cancelar</Button>
     </StackPanel>
 </Window>
