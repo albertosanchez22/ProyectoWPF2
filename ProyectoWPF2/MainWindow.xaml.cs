@@ -130,6 +130,32 @@ namespace ProyectoWPF2
             }
         }
 
+        private void botonañadirsesion_Click(object sender, RoutedEventArgs e)
+        {
+            DialogoSesion dialogo = new DialogoSesion();
+            dialogo.Owner = this;
+            if (dialogo.ShowDialog() == true)
+            {
+                Sesion sesion = new Sesion();
+
+                sesion.Pelicula = dialogo.peliculaañadir;
+                sesion.Sala = dialogo.salaañadir;
+                sesion.Hora = dialogo.horañadir;
+
+
+
+                Sesion.añadirsesionSQL(sesion);
+                listasesiones.Add(sesion);
+                sesioneslistbox.DataContext = null;
+                sesioneslistbox.DataContext = listasesiones;
+
+
+
+            }
+        }
+
+       
+
         private void Actualizar_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
@@ -164,23 +190,80 @@ namespace ProyectoWPF2
 
         private void ActualizarSesion_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            Sesion sesion = new Sesion();
+
+            sesion.Id = int.Parse(idsesiontextbox.Text);
+            sesion.Pelicula = int.Parse(nombrepeliculatextbox.Text);
+            sesion.Sala = int.Parse(salatextbox.Text);
+            sesion.Hora = horatextbox.Text;
+            Sesion.actualizarsesionSQL(sesion);
+            listasesiones = Sesion.getSamples();
+            sesioneslistbox.DataContext = null;
+            sesioneslistbox.DataContext = listasesiones;
+
 
         }
 
         private void Eliminar_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            
+           string id;
+            id=idsesiontextbox.Text;
+            Sesion.eliminarsesionSQL(id);
+            listasesiones = Sesion.getSamples();
+            sesioneslistbox.DataContext = null;
+            sesioneslistbox.DataContext = listasesiones;
+
 
         }
 
         private void ActualizarSesion_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-
+            if (listasesiones != null && sesioneslistbox.SelectedItem == null)
+            {
+                e.CanExecute = false;
+            }
+            else e.CanExecute = true;
         }
 
         private void Eliminar_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
+            if (listasesiones != null && sesioneslistbox.SelectedItem == null)
+            {
+                e.CanExecute = false;
+            }
+            else e.CanExecute = true;
 
-            
         }
+
+        private void AñadirEntradas_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Properties.Settings.Default.idsesioncomprar = int.Parse(idsesiontextbox.Text);
+            Properties.Settings.Default.Save();
+            DialogoEntradas dialogo = new DialogoEntradas();
+            dialogo.Owner = this;
+            if (dialogo.ShowDialog() == true)
+            {
+
+
+               
+                
+
+
+
+
+
+            }
+        }
+        private void AñadirEntradas_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (listasesiones != null && sesioneslistbox.SelectedItem == null)
+            {
+                e.CanExecute = false;
+            }
+            else e.CanExecute = true;
+
+        }
+
     }
 }

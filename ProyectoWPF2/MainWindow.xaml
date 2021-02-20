@@ -10,6 +10,10 @@
         <CommandBinding Command="local:CustomCommands.Actualizar"
                         Executed="Actualizar_Executed"
                             CanExecute="Actualizar_CanExecute"></CommandBinding>
+        
+        <CommandBinding Command="local:CustomCommands.AñadirEntradas"
+                        Executed="AñadirEntradas_Executed"
+                            CanExecute="AñadirEntradas_CanExecute"></CommandBinding>
 
         <CommandBinding Command="local:CustomCommands.ActualizarSesion"
                         Executed="ActualizarSesion_Executed"
@@ -22,7 +26,8 @@
     <Window.Resources>
 
 
-        <local1:IdPeliculaConverter x:Key="peliculaconverter"></local1:IdPeliculaConverter>
+        <local1:IdPeliculaConverter x:Key="peliculaconversor"></local1:IdPeliculaConverter>
+        <local1:ConvertidorSala x:Key="salaconversor"></local1:ConvertidorSala>
         
         <DataTemplate DataType="{x:Type local:Pelicula}">
             <Border BorderThickness="1"
@@ -70,8 +75,8 @@
                 <DockPanel LastChildFill="True">
 
                     <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=Hora}"></TextBlock>
-                    <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=Sala}"></TextBlock>
-                    <TextBlock DockPanel.Dock="Top" Text="{Binding Path=Pelicula,Converter={StaticResource peliculaconverter}}"></TextBlock>
+                    <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=Sala,Converter={StaticResource salaconversor}}"></TextBlock>
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Path=Pelicula,Converter={StaticResource peliculaconversor}}"></TextBlock>
                     <TextBlock DockPanel.Dock="Top" Text="{Binding Path=Id}"></TextBlock>
 
 
@@ -178,8 +183,11 @@
                     <TextBox x:Name="salatextbox" Text="{Binding Path=Sala,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"  Grid.Row="2" Grid.Column="1"></TextBox>
                     <TextBlock TextAlignment="Center" Grid.Row="3" Grid.Column="0">Hora:</TextBlock>
                     <TextBox x:Name="horatextbox" Text="{Binding Path=Hora,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"  Grid.Row="3" Grid.Column="1"></TextBox>
-                    <Button x:Name="botonañadirsesion" Click="botonañadirsala_Click" Grid.Row="4" Grid.Column="0">Añadir Sala</Button>
-                    <StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="1">
+                    <StackPanel Grid.Row="4" Grid.Column="0">
+                    <Button x:Name="botonañadirsesion" Click="botonañadirsesion_Click" >Añadir Sesion</Button>
+                        <Button x:Name="botonañadirentrada" Command="local:CustomCommands.AñadirEntradas" >Añadir Entradas</Button>
+                    </StackPanel>
+                        <StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="1">
                         <Button Command="local:CustomCommands.ActualizarSesion" x:Name="botonactualizarsesion"   Margin="0,0,10,0"  >Actualizar Sesion</Button>
                         <Button Command="local:CustomCommands.Eliminar" x:Name="botoneliminarsesion"   Margin="0,0,10,0"  Grid.Column="1">Eliminar Sesion</Button>
                     </StackPanel>
@@ -209,6 +217,9 @@
 
             </ListBox>
             </DockPanel>
+        </TabItem>
+        <TabItem Header="Venta de entradas">
+            
         </TabItem>
     </TabControl>
 </Window>

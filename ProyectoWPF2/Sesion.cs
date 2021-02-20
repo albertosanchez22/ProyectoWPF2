@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProyectoWPF2
 {
@@ -156,7 +157,7 @@ namespace ProyectoWPF2
             conexion.Close();
         }
 
-        public static void eliminarsesionSQL(Sesion sesion)
+        public static void eliminarsesionSQL(string id)
         {
             SqliteConnection conexion = new SqliteConnection("Data Source=peliculasbase.db");
             conexion.Open();
@@ -164,16 +165,117 @@ namespace ProyectoWPF2
             comando.CommandText = "DELETE FROM  sesiones WHERE idSesion=@idsesion";
 
             comando.Parameters.Add("@idsesion", SqliteType.Integer);
-            comando.Parameters["@idsesion"].Value = sesion.Id;
+            comando.Parameters["@idsesion"].Value = int.Parse(id);
 
             comando.ExecuteNonQuery();
 
             conexion.Close();
 
         }
+        public static bool CompararSesion(int sala)
+        {
+
+            //Sala disponible
+            SqliteConnection conexion = new SqliteConnection("Data Source=peliculasbase.db");
+            conexion.Open();
+            SqliteCommand comando = conexion.CreateCommand();
+
+            comando.CommandText = "SELECT disponible FROM sesiones where sala=@sala";
+            comando.Parameters.Add("@sala", SqliteType.Integer);
+            comando.Parameters["@sala"].Value = sala;
+            SqliteDataReader lector = comando.ExecuteReader();
+            if (lector.HasRows)
+            {
+
+                while (lector.Read())
+                {
+
+
+                    if ((lector["disponible"].Equals("false")))
+                    {
+                        MessageBox.Show("ERROR: Sala no disponible");
+                        return true;
+                    }
+
+                }
+
+
+            }
+            conexion.Close();
+            if (ComprararSesion(sala))
+            {
+                return true;
+            }
+            else return false;
+        }
+        public static bool ComprararSesion(int sala)
+        {
+            //COMPARA SESIONES
+            SqliteConnection conexion = new SqliteConnection("Data Source=peliculasbase.db");
+            conexion.Open();
+            SqliteCommand comando = conexion.CreateCommand();
+
+            comando.CommandText = "SELECT COUNT(idSesion) FROM sesiones where sala=@sala";
+            comando.Parameters.Add("@sala", SqliteType.Integer);
+            comando.Parameters["@sala"].Value =sala;
+            SqliteDataReader lector = comando.ExecuteReader();
+            if (lector.HasRows)
+            {
+
+                while (lector.Read())
+                {
+
+
+                    if (int.Parse((lector["COUNT(idSesion)"]).ToString())>=3)
+                    {
+                        MessageBox.Show("ERROR: Supera el numero maximo de sesiones permitidas");
+                        return true;
+                    }
+
+                }
+
+
+            }
+            conexion.Close();
+            return false;
+        }
+
+
+        public static bool CompararAforoSQL(int cantidadcomprar,int idsesion)
+        {
+
+            
+            SqliteConnection conexion = new SqliteConnection("Data Source=peliculasbase.db");
+            conexion.Open();
+            SqliteCommand comando = conexion.CreateCommand();
+
+            comando.CommandText = "SELECT cantidad,capacidad FROM ventas join salas on ventas.sesion=salas.idsala where sesion=@sesion";
+            comando.Parameters.Add("@sesion", SqliteType.Integer);
+            comando.Parameters["@sesion"].Value = idsesion;
+            SqliteDataReader lector = comando.ExecuteReader();
+            if (lector.HasRows)
+            {
+
+                while (lector.Read())
+                {
+
+
+                    if ((int.Parse((lector["cantidad"]).ToString())+cantidadcomprar) >= int.Parse((lector["capacidad"]).ToString()))
+                    {
+                        MessageBox.Show("ERROR: Supera el numero maximo de capacidad de la sala");
+                        return true;
+                    }
+
+                }
+
+
+            }
+            conexion.Close();
+            return false;
+        }
         public static void añadirsesionSQL(Sesion sesion)
         {
-            //Falta añadir los bool bien sale siempre 0
+            
           
             SqliteConnection conexion = new SqliteConnection("Data Source=peliculasbase.db");
             conexion.Open();

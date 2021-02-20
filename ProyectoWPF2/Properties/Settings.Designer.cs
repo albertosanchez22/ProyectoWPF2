@@ -54,5 +54,17 @@ namespace ProyectoWPF2.Properties {
                 this["basecreada"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int idsesioncomprar {
+            get {
+                return ((int)(this["idsesioncomprar"]));
+            }
+            set {
+                this["idsesioncomprar"] = value;
+            }
+        }
     }
 }

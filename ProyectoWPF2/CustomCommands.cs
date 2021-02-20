@@ -19,7 +19,11 @@ namespace ProyectoWPF2
 
         public static readonly RoutedUICommand ActualizarSesion = new RoutedUICommand
             ("ActualizarSesion", "ActualizarSesion", typeof(CustomCommands),
-            new InputGestureCollection() { new KeyGesture(Key.D, ModifierKeys.Control) });
+            new InputGestureCollection() { new KeyGesture(Key.I, ModifierKeys.Control) });
+
+        public static readonly RoutedUICommand AñadirEntradas = new RoutedUICommand
+            ("AñadirEntradas", "AñadirEntradas", typeof(CustomCommands),
+            new InputGestureCollection() { new KeyGesture(Key.I, ModifierKeys.Control) });
 
         public static readonly RoutedUICommand Eliminar = new RoutedUICommand
            ("Eliminar", "Eliminar", typeof(CustomCommands),

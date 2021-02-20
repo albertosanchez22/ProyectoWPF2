@@ -92,13 +92,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Conversores\ConvertidorSala.cs" />
     <Compile Include="Conversores\IdPeliculaConverter.cs" />
     <Compile Include="CustomCommands.cs" />
+    <Compile Include="DialogoEntradas.xaml.cs">
+      <DependentUpon>DialogoEntradas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DialogoSesion.xaml.cs">
+      <DependentUpon>DialogoSesion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogo.xaml.cs">
       <DependentUpon>Dialogo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sala.cs" />
     <Compile Include="Sesion.cs" />
+    <Page Include="DialogoEntradas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DialogoSesion.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
